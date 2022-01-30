@@ -32,6 +32,7 @@ public class TodoController {
         List<String> list = Lists.newArrayList(str);
 
         ResponseDto<String> responseDto = ResponseDto.<String>builder().data(list).build();
+
         return ResponseEntity.ok().body(responseDto);
     }
 

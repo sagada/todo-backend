@@ -26,12 +26,12 @@ public class TodoService {
 
     public List<TodoEntity> create(final TodoEntity entity)
     {
-        validate(entity);
+        validateFunc(entity);
         todoRepository.save(entity);
         return todoRepository.findByUserId(entity.getUserId());
     }
 
-    private void validate(final TodoEntity todoEntity)
+    private void validateFunc(final TodoEntity todoEntity)
     {
         if (todoEntity == null)
         {
@@ -53,7 +53,7 @@ public class TodoService {
 
     public List<TodoEntity> update(final TodoEntity entity)
     {
-        validate(entity);
+        validateFunc(entity);
 
         final Optional<TodoEntity> original = todoRepository.findById(entity.getId());
 
@@ -69,7 +69,7 @@ public class TodoService {
     }
 
     public List<TodoEntity> delete(TodoEntity entity) {
-        validate(entity);
+        validateFunc(entity);
 
         try{
             todoRepository.delete(entity);

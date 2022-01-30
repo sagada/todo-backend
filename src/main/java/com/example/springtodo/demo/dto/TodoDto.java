@@ -12,7 +12,8 @@ public class TodoDto {
     private String title;
     private boolean done;
 
-    public TodoDto(final TodoEntity entity) {
+    public TodoDto(final TodoEntity entity)
+    {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.done = entity.isDone();
