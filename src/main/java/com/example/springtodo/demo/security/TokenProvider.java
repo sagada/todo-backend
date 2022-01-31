@@ -15,7 +15,7 @@ import java.util.Date;
 @Slf4j
 public class TokenProvider {
 
-    private static final String SECRET_KEY = "MAA";
+    private static final String SECRET_KEY = "MITGOODUNIVERSITY";
 
     public String create(UserEntity userEntity)
     {
@@ -37,6 +37,6 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return claims.getId();
+        return claims.getSubject();
     }
 }

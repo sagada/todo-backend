@@ -3,10 +3,13 @@ package com.example.springtodo.demo.controller;
 import com.example.springtodo.demo.dto.ResponseDto;
 import com.example.springtodo.demo.dto.UserDto;
 import com.example.springtodo.demo.model.UserEntity;
+import com.example.springtodo.demo.security.TokenProvider;
 import com.example.springtodo.demo.service.UserService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-
+    private final TokenProvider tokenProvider;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto)
     {
@@ -38,7 +42,7 @@ public class UserController {
                     .id(registerUser.getId())
                     .username(registerUser.getUsername())
                     .build();
-
+            System.out.println("@!###!#@#@2");
             return ResponseEntity.ok().body(responseUserDto);
         }catch (Exception e)
         {
@@ -52,13 +56,16 @@ public class UserController {
     @PostMapping("/signIn")
     public ResponseEntity<?> authenticate(@RequestBody UserDto userDto)
     {
-        UserEntity user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword());
+        UserEntity user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
 
         if (user != null)
         {
+            // 토큰 생성
+            final String token = tokenProvider.create(user);
             final UserDto responseUserDto = UserDto.builder()
                     .email(user.getEmail())
                     .id(user.getId())
+                    .token(token)
                     .build();
 
             return ResponseEntity.ok().body(responseUserDto);
