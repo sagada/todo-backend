@@ -23,7 +23,8 @@ public class UserController {
 
     private final UserService userService;
     private final TokenProvider tokenProvider;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto)
     {
@@ -32,7 +33,7 @@ public class UserController {
             UserEntity user = UserEntity.builder()
                     .email(userDto.getEmail())
                     .username(userDto.getUsername())
-                    .password(userDto.getPassword())
+                    .password(passwordEncoder.encode(userDto.getPassword()))
                     .build();
 
             UserEntity registerUser = userService.create(user);
@@ -42,7 +43,7 @@ public class UserController {
                     .id(registerUser.getId())
                     .username(registerUser.getUsername())
                     .build();
-            System.out.println("@!###!#@#@2");
+
             return ResponseEntity.ok().body(responseUserDto);
         }catch (Exception e)
         {
@@ -56,6 +57,8 @@ public class UserController {
     @PostMapping("/signIn")
     public ResponseEntity<?> authenticate(@RequestBody UserDto userDto)
     {
+        System.out.println("userDto.getEmail() : " + userDto.getEmail());
+        System.out.println("userDto.getPassword() : "  + userDto.getPassword());
         UserEntity user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
 
         if (user != null)
