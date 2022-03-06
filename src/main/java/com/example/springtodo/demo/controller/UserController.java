@@ -57,8 +57,6 @@ public class UserController {
     @PostMapping("/signIn")
     public ResponseEntity<?> authenticate(@RequestBody UserDto userDto)
     {
-        System.out.println("userDto.getEmail() : " + userDto.getEmail());
-        System.out.println("userDto.getPassword() : "  + userDto.getPassword());
         UserEntity user = userService.getByCredentials(userDto.getEmail(), userDto.getPassword(), passwordEncoder);
 
         if (user != null)
