@@ -16,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")}, name = "user_entity")
 public class UserEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
