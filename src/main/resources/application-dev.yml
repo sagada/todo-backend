@@ -10,3 +10,6 @@ spring:
     username: root
     password: root1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    activate:
+      on-profile: dev
