@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Transactional
     public UserEntity create(final UserEntity userEntity)
     {
         if (userEntity == null || userEntity.getEmail() == null)
