@@ -1,16 +1,17 @@
 server:
   port: 5000
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
+    username: ${rds.username}
+    password: ${rds.password}
   jpa:
     database: MYSQL
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create
-  database:
-    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
-    username: ${rds.username}
-    password: ${rds.password}
   config:
     activate:
       on-profile: prod
